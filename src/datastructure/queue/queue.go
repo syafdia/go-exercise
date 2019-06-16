@@ -3,7 +3,7 @@ package queue
 import (
 	"fmt"
 
-	"github.com/syafdia/go-exercise/src/datastructure/types"
+	"github.com/syafdia/go-exercise/src/types"
 )
 
 type Queue interface {

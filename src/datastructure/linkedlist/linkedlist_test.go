@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/syafdia/go-exercise/src/datastructure/types"
+	"github.com/syafdia/go-exercise/src/types"
 )
 
 func Test_node_Head(t *testing.T) {

@@ -1,6 +1,6 @@
 package binarytree
 
-import "github.com/syafdia/go-exercise/src/datastructure/types"
+import "github.com/syafdia/go-exercise/src/types"
 
 type BinaryTree interface {
 	Left() types.T
