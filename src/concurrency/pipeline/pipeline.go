@@ -13,7 +13,11 @@ type pipeline struct {
 	executors []Executor
 }
 
-func New(inC chan interface{}) Pipeline {
+func New(f func(chan interface{})) Pipeline {
+	inC := make(chan interface{})
+
+	go f(inC)
+
 	return &pipeline{
 		dataC:     inC,
 		errC:      make(chan error),
