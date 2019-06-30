@@ -6,17 +6,17 @@ type Semaphore interface {
 }
 
 type semaphore struct {
-	semC chan int8
+	semC chan struct{}
 }
 
 func New(maxConcurrency int) Semaphore {
 	return &semaphore{
-		semC: make(chan int8, maxConcurrency),
+		semC: make(chan struct{}, maxConcurrency),
 	}
 }
 
 func (s *semaphore) Acquire() {
-	s.semC <- 1
+	s.semC <- struct{}{}
 }
 
 func (s *semaphore) Release() {
