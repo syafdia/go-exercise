@@ -3,7 +3,7 @@ package linkedlist
 import (
 	"fmt"
 
-	"github.com/syafdia/go-exercise/src/types"
+	"github.com/syafdia/go-exercise/src/datastructure/types"
 )
 
 type LinkedList interface {

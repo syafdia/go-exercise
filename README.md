@@ -1,7 +1,18 @@
 # Go Exercise
 
-Exrecise for learning Go programming language, includes :
+Exercise for learning Go programming language, includes :
 
- * Data structure
- * Concurrency
- * Network
+## Data structure
+* Binary Tree
+* Hashmap
+* [Linked List](src/datastructure/linkedlist)
+* [Queue](src/datastructure/queue)
+* Stack
+
+
+## Concurrency
+* [Pipeline](src/concurrency/pipeline)
+* [Semaphore](src/concurrency/semaphore)
+
+## Network
+* TBA
