@@ -14,5 +14,8 @@ Exercise for learning Go programming language, includes :
 * [Pipeline](src/concurrency/pipeline)
 * [Semaphore](src/concurrency/semaphore)
 
+## Etc
+* [Kong Plugin](src/etc/demo-kong-plugin)
+
 ## Network
 * TBA

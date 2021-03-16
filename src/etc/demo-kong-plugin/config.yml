@@ -1,0 +1,11 @@
+_format_version: "2.1"
+services:
+- name: mockbin-service-1
+  url: http://mockbin.com/request
+  routes:
+  - paths:
+    - "/"
+  plugins:
+  - name: key-checker
+    config:
+      api_key: mysecretconsumerkey
