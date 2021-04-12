@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	server.StartServer(kongdelivery.NewKeyChecker, "0.1", 1000)
+	server.StartServer(kongdelivery.NewKeyChecker, "0.1", 0)
 }

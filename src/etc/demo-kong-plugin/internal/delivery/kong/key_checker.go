@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"context"
+	"log"
 
 	"github.com/Kong/go-pdk"
 	"github.com/syafdia/demo-kong-plugin/internal/di"
@@ -21,6 +22,7 @@ func NewKeyChecker() interface{} {
 }
 
 func (conf *KeyCheckerConfig) Access(kong *pdk.PDK) {
+	log.Println("[KeyChecker] Got request")
 	key, err := kong.Request.GetQueryArg("key")
 	if err != nil {
 		kong.Log.Err(err.Error())
@@ -53,4 +55,14 @@ func (conf *KeyCheckerConfig) Access(kong *pdk.PDK) {
 	}
 
 	kong.Response.SetHeader("X-Exchange-Token", token)
+}
+
+func (conf *KeyCheckerConfig) Response(kong *pdk.PDK) {
+	status, err := kong.Response.GetStatus()
+	if err != nil {
+		kong.Log.Err(err.Error())
+	} else {
+		log.Println("[KeyChecker] Got response", status)
+	}
+
 }

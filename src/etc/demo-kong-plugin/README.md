@@ -1,29 +1,21 @@
 # Develop Kong plugin using Go
 
-### How to build
+### How to Develop
 
-1. Build docker image 
-   ```
-   docker build -t kong-demo
-   ```
-  
-2. Run container
+1. Install [Docker](https://www.docker.com)
 
- 	```
-  	docker run -ti --rm --name kong-go-plugins \
-  	-e "KONG_DATABASE=off" \
-  	-e "KONG_DECLARATIVE_CONFIG=/tmp/config.yml" \
-  	-e "KONG_PLUGINS=bundled,key-checker" \
-  	-e "KONG_PLUGINSERVER_NAMES=key-checker" \
-  	-e "KONG_PLUGINSERVER_KEY_CHECKER_START_CMD=/usr/local/bin/key-checker" \
-  	-e "KONG_PLUGINSERVER_KEY_CHECKER_QUERY_CMD=/usr/local/bin/key-checker -dump" \
-  	-e "KONG_PROXY_LISTEN=0.0.0.0:8000" \
-  	-e "KONG_LOG_LEVEL=debug" \
-  	-p 8000:8000 \
-     kong-demo
-   ```
+2. Install [CompileDaemon](https://github.com/githubnemo/CompileDaemon)
+	```
+	go get github.com/githubnemo/CompileDaemon
+
+	```
+
+2. Run development script
+	```
+	sh scripts/start-development.sh
+	```
 
 
 ### How to test
 1. Visit `curl --location --request GET '0.0.0.0:8000?key=invalidconsumerkey'`, it will return `401`
-2. Visit `curl --location --request GET '0.0.0.0:8000?key=mysecretconsumerkey', it will return `200` with valid data
+2. Visit `curl --location --request GET '0.0.0.0:8000?key=mysecretconsumerkey'`, it will return `200` with valid data

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  kong-plugin-builder:
+    build: .
+    image: kong-plugin-builder
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/tmp/go-plugins
+  kong:
+    image: kong:2.3.3-alpine
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/usr/local/kong/config.yml
+      - KONG_PLUGINS=bundled,key-checker
+      - KONG_PLUGINSERVER_NAMES=key-checker
+      - KONG_PLUGINSERVER_KEY_CHECKER_START_CMD=/usr/local/kong/go-plugins/bin/key-checker
+      - KONG_PLUGINSERVER_KEY_CHECKER_QUERY_CMD=/usr/local/kong/go-plugins/bin/key-checker -dump
+      - KONG_PROXY_LISTEN=0.0.0.0:8000
+      - KONG_LOG_LEVEL=debug
+    ports:
+      - '8000:8000'
+    restart: on-failure
+    volumes:
+      - ./config.yml:/usr/local/kong/config.yml
+      - .:/usr/local/kong/go-plugins
+
+volumes:
+  shared-volume:
+
