@@ -13,6 +13,7 @@ Exercise for learning Go programming language, includes :
 ## Concurrency
 * [Pipeline](src/concurrency/pipeline)
 * [Semaphore](src/concurrency/semaphore)
+* [Worker Pool](src/concurrency/workerpool)
 
 ## Etc
 * [Kong Plugin](src/etc/demo-kong-plugin)
