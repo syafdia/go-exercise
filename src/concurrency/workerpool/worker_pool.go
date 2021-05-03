@@ -1,43 +1,56 @@
 package workerpool
 
-import (
-	"log"
-)
+import "log"
 
+// WorkerPool is a contract for Worker Pool implementation
 type WorkerPool interface {
-	AddTask(id string, executor Executor)
+	Run()
+	AddTasks(tasks []*Task)
 	GetProcessedTask() chan *Task
 	GetTotalQueuedTask() int
 }
 
 type workerPool struct {
 	maxWorker      int
-	tasks          []*Task
+	taskC          chan *Task
 	queuedTaskC    chan *Task
 	processedTaskC chan *Task
 }
 
-func NewWorkerPool(maxWorker int, maxTask int) WorkerPool {
+// NewWorkerPool will create an instance of WorkerPool.
+func NewWorkerPool(maxWorker int) WorkerPool {
 	wp := &workerPool{
 		maxWorker:      maxWorker,
-		queuedTaskC:    make(chan *Task, maxTask),
-		processedTaskC: make(chan *Task, maxTask),
-
-		tasks: []*Task{},
+		queuedTaskC:    make(chan *Task),
+		processedTaskC: make(chan *Task),
 	}
 
-	defer wp.run()
 	return wp
 }
 
+func (wp *workerPool) Run() {
+	wp.run()
+}
+
 func (wp *workerPool) AddTask(id string, executor Executor) {
-	task := &Task{
-		ID:       id,
-		executor: executor,
-	}
-	wp.queuedTaskC <- task
+	go func() {
+		task := &Task{
+			ID:       id,
+			executor: executor,
+		}
+		wp.queuedTaskC <- task
+	}()
 
 	log.Printf("[WorkerPool] Task %s has been added", id)
+}
+
+func (wp *workerPool) AddTasks(tasks []*Task) {
+	go func() {
+		for _, task := range tasks {
+			wp.queuedTaskC <- task
+		}
+
+	}()
 }
 
 func (wp *workerPool) GetTotalQueuedTask() int {

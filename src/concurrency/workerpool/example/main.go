@@ -8,27 +8,31 @@ import (
 )
 
 func main() {
-	wp := workerpool.NewWorkerPool(2, 4)
+	log.SetFlags(log.Ltime)
+	wp := workerpool.NewWorkerPool(3)
+	wp.Run()
 
-	wp.AddTask("TA", func() (int, error) {
-		time.Sleep(2 * time.Second)
-		return 1 + 1, nil
-	})
-	wp.AddTask("TB", func() (int, error) {
-		time.Sleep(2 * time.Second)
-		return 2 + 2, nil
-	})
-	wp.AddTask("TC", func() (int, error) {
-		time.Sleep(2 * time.Second)
-		return 3 + 3, nil
-	})
-	wp.AddTask("TD", func() (int, error) {
-		time.Sleep(2 * time.Second)
-		return 4 + 4, nil
-	})
-	wp.AddTask("TE", func() (int, error) {
-		time.Sleep(2 * time.Second)
-		return 5 + 5, nil
+	wp.AddTasks([]*workerpool.Task{
+		workerpool.NewTask("A", func() (interface{}, error) {
+			time.Sleep(5 * time.Second)
+			return 1 + 1, nil
+		}),
+		workerpool.NewTask("B", func() (interface{}, error) {
+			time.Sleep(5 * time.Second)
+			return 2 + 2, nil
+		}),
+		workerpool.NewTask("C", func() (interface{}, error) {
+			time.Sleep(5 * time.Second)
+			return 3 + 3, nil
+		}),
+		workerpool.NewTask("D", func() (interface{}, error) {
+			time.Sleep(5 * time.Second)
+			return 4 + 4, nil
+		}),
+		workerpool.NewTask("E", func() (interface{}, error) {
+			time.Sleep(5 * time.Second)
+			return 5 + 5, nil
+		}),
 	})
 
 	for {
