@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"runtime"
 	"time"
 
 	"github.com/syafdia/go-exercise/src/concurrency/workerpool"
@@ -9,39 +10,42 @@ import (
 
 func main() {
 	log.SetFlags(log.Ltime)
-	wp := workerpool.NewWorkerPool(3)
+
+	// For monitoring purpose.
+	waitC := make(chan bool)
+	go func() {
+		for {
+			log.Printf("[main] Total current goroutine: %d", runtime.NumGoroutine())
+			time.Sleep(1 * time.Second)
+		}
+	}()
+
+	// Start Worker Pool.
+	totalWorker := 5
+	wp := workerpool.NewWorkerPool(totalWorker)
 	wp.Run()
 
-	wp.AddTasks([]*workerpool.Task{
-		workerpool.NewTask("A", func() (interface{}, error) {
-			time.Sleep(5 * time.Second)
-			return 1 + 1, nil
-		}),
-		workerpool.NewTask("B", func() (interface{}, error) {
-			time.Sleep(5 * time.Second)
-			return 2 + 2, nil
-		}),
-		workerpool.NewTask("C", func() (interface{}, error) {
-			time.Sleep(5 * time.Second)
-			return 3 + 3, nil
-		}),
-		workerpool.NewTask("D", func() (interface{}, error) {
-			time.Sleep(5 * time.Second)
-			return 4 + 4, nil
-		}),
-		workerpool.NewTask("E", func() (interface{}, error) {
-			time.Sleep(5 * time.Second)
-			return 5 + 5, nil
-		}),
-	})
-
-	for {
-		select {
-		case task := <-wp.GetProcessedTask():
-			log.Printf("[main] Got task ID: %s, result: %v, err: %v", task.ID, task.Result, task.Err)
-		default:
-			time.Sleep(1 * time.Second)
-			log.Printf("[main] Waiting for result, total queued tasks %d", wp.GetTotalQueuedTask())
-		}
+	type result struct {
+		id    int
+		value int
 	}
+
+	totalTask := 100
+	resultC := make(chan result, totalTask)
+
+	for i := 0; i < totalTask; i++ {
+		id := i + 1
+		wp.AddTask(func() {
+			log.Printf("[main] Starting task %d", id)
+			time.Sleep(5 * time.Second)
+			resultC <- result{id, id * 2}
+		})
+	}
+
+	for i := 0; i < totalTask; i++ {
+		res := <-resultC
+		log.Printf("[main] Task %d has been finished with result %d", res.id, res.value)
+	}
+
+	<-waitC
 }
