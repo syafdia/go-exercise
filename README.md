@@ -17,6 +17,7 @@ Exercise for learning Go programming language, includes :
 
 ## Etc
 * [Kong Plugin](src/etc/demo-kong-plugin)
+* [Redlock](src/etc/demo-redlock)
 
 ## Network
 * TBA
