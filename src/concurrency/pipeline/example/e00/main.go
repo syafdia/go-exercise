@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/syafdia/go-exercise/src/concurrency/pipeline"
+	"github.com/syafdia/go-exercise/src/concurrency/pipeline/example"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 	startTime := time.Now()
 
 	for i := 0; i < N; i++ {
-		result := addFoo(addQuoute(square(multiplyTwo(i))))
+		result := example.AddFoo(example.AddQuoute(example.Square(example.MultiplyTwo(i))))
 		fmt.Printf("Result: %s\n", result)
 	}
 
@@ -25,16 +26,16 @@ func main() {
 		}
 	}).
 		Pipe(func(in interface{}) (interface{}, error) {
-			return multiplyTwo(in.(int)), nil
+			return example.MultiplyTwo(in.(int)), nil
 		}).
 		Pipe(func(in interface{}) (interface{}, error) {
-			return square(in.(int)), nil
+			return example.Square(in.(int)), nil
 		}).
 		Pipe(func(in interface{}) (interface{}, error) {
-			return addQuoute(in.(int)), nil
+			return example.AddQuoute(in.(int)), nil
 		}).
 		Pipe(func(in interface{}) (interface{}, error) {
-			return addFoo(in.(string)), nil
+			return example.AddFoo(in.(string)), nil
 		}).
 		Merge()
 
@@ -44,24 +45,4 @@ func main() {
 	}
 
 	fmt.Printf("Elapsed time with concurrency: %s", time.Since(startTimeC)) // ~16 seconds
-}
-
-func multiplyTwo(v int) int {
-	time.Sleep(2 * time.Second)
-	return v * 2
-}
-
-func square(v int) int {
-	time.Sleep(2 * time.Second)
-	return v * v
-}
-
-func addQuoute(v int) string {
-	time.Sleep(2 * time.Second)
-	return fmt.Sprintf("'%d'", v)
-}
-
-func addFoo(v string) string {
-	time.Sleep(2 * time.Second)
-	return fmt.Sprintf("%s - Foo", v)
 }
