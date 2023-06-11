@@ -1,0 +1,19 @@
+nameOverride: "redis-cache"
+fullnameOverride: "redis-cache"
+architecture: standalone
+replica:
+  replicaCount: 0
+auth:
+  enabled: false
+  password: "rediscachepassword"
+master:
+  disableCommands: []
+  persistence:
+    enabled: false
+  resources:
+    limits:
+      cpu: 750m
+      memory: 256Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi

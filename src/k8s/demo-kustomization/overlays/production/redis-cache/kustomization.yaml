@@ -1,0 +1,7 @@
+resources:
+  - ../../../base/redis-cache
+namePrefix: production-
+helmCharts:
+- name: redis
+  repo: https://charts.bitnami.com/bitnami
+  valuesFile: values.yaml
