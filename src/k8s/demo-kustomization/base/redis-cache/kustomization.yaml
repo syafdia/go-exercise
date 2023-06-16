@@ -9,6 +9,3 @@ helmCharts:
   repo: https://charts.bitnami.com/bitnami
   version: 7.0.11
   valuesFile: values.yaml
-  # additionalValuesFiles:
-  # - values-file-1.yml
-  # - values-file-2.yml

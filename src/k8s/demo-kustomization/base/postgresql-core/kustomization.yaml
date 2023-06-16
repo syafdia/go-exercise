@@ -1,12 +1,9 @@
-
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
-  name: arbitrary
+  name: postgresql-core
 commonLabels:
-  app: calculator
-
+  app: postgresql-core
 resources:
-- deployment.yaml
-- service.yaml
-- configMap.yaml
+- helmRepository.yaml
+- helmRelease.yaml
