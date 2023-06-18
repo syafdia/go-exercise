@@ -2,6 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: calculator-service
+  namespace: calculator
 spec:
   selector:
     app: calculator

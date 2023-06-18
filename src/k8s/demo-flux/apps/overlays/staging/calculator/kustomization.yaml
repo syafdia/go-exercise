@@ -1,0 +1,5 @@
+resources:
+  - ../../../base/calculator
+namePrefix: staging-
+patches:
+  - path: configMap.yaml
