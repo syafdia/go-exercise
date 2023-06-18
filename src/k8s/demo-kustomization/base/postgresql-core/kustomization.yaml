@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: postgresql-core
+commonLabels:
+  app: postgresql-core
+resources:
+- helmRepository.yaml
+- helmRelease.yaml

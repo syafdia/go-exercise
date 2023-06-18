@@ -1,0 +1,6 @@
+resources:
+  - ../../../base/calculator
+namePrefix: production-
+patches:
+  - path: configMap.yaml
+  - path: deployment.yaml

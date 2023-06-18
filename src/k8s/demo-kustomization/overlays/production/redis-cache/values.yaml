@@ -1,0 +1,23 @@
+nameOverride: "redis-cache"
+fullnameOverride: "redis-cache"
+architecture: standalone
+replica:
+  replicaCount: 0
+image:
+  registry: docker.io
+  repository: bitnami/redis
+  tag: 6.2.3-debian-10-r0
+auth:
+  enabled: true
+  password: "rediscachepassword"
+master:
+  disableCommands: []
+  persistence:
+    enabled: false
+  resources:
+    limits:
+      cpu: 750m
+      memory: 256Mi
+    requests:
+      cpu: 500m
+      memory: 128Mi
