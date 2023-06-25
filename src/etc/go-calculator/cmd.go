@@ -93,6 +93,7 @@ var (
 )
 
 func main() {
+	log.Println("[main] Will start the app")
 	httpServerPort := "8080"
 	if envHttpServerPort != "" {
 		httpServerPort = envHttpServerPort
