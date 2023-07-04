@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: postgresql-core
+  name: datadog
   namespace: datadog
 spec:
   interval: 5m
