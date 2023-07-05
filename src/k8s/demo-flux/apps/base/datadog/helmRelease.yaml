@@ -14,7 +14,10 @@ spec:
         name: datadog-helm-repository
         namespace: flux-system
   values:
+    targetSystem: linux
     datadog:
+      apiKey: xxxx
+      site: xxxx
       logs:
         enabled: true
         containerCollectAll: true
