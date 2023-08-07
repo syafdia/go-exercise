@@ -26,3 +26,5 @@ spec:
             configMapKeyRef:
               name: calculator-configmap
               key: max_number
+        - name: REDIS_URL
+          value: 'redis://redis-svc:6379'

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: redis-cache
+  labels:
+    type: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appName: redis-cache
+  progressDeadlineSeconds: 60
+  template:
+    metadata:
+      labels:
+        appName: redis-cache
+    spec:
+      containers:
+        - name: redis-cache
+          image: redis:7.0

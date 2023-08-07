@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+namespace: redis-cache
+metadata:
+  name: redis-svc
+spec:
+  ports:
+  - port: 6379
+  selector:
+    appName: redis-cache
