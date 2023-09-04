@@ -10,4 +10,3 @@ spec:
     name: flux-system
   path: ./src/k8s/demo-flux/infrastructure/base/elastic-system
   prune: true
----
