@@ -54,7 +54,7 @@ func AddHandler(m *Module) gin.HandlerFunc {
 		cacheKey := fmt.Sprintf("add:%d+%d", a, b)
 		var result int
 
-		_, err := m.redisClient.Get(c, cacheKey).Result()
+		val, err := m.redisClient.Get(c, cacheKey).Result()
 		if err != nil {
 			if !errors.Is(err, redis.Nil) {
 				c.JSON(http.StatusInternalServerError, gin.H{
@@ -72,6 +72,8 @@ func AddHandler(m *Module) gin.HandlerFunc {
 				})
 				return
 			}
+		} else {
+			result, _ = strconv.Atoi(val)
 		}
 
 		c.JSON(http.StatusOK, gin.H{
