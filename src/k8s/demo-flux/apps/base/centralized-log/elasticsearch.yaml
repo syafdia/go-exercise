@@ -7,14 +7,12 @@ spec:
   version: 8.9.1
   nodeSets:
   - name: master-nodes
-    count: 2
+    count: 1
     config:
       node.store.allow_mmap: false
-      node.roles:
-      - master
+      node.roles: ["master"]
   - name: data-nodes
     count: 2
     config:
       node.store.allow_mmap: false
-      node.roles:
-      - data
+      node.roles: ["data"]
