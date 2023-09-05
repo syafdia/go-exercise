@@ -6,13 +6,7 @@ metadata:
 spec:
   version: 8.9.1
   nodeSets:
-  - name: master-nodes
+  - name: default-nodes
     count: 1
     config:
       node.store.allow_mmap: false
-      node.roles: ["master"]
-  - name: data-nodes
-    count: 1
-    config:
-      node.store.allow_mmap: false
-      node.roles: ["data"]
