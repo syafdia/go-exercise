@@ -12,7 +12,7 @@ spec:
       node.store.allow_mmap: false
       node.roles: ["master"]
   - name: data-nodes
-    count: 2
+    count: 1
     config:
       node.store.allow_mmap: false
       node.roles: ["data"]
