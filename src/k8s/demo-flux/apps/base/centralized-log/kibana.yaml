@@ -1,7 +1,7 @@
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
-  name: centralized-log-kibana
+  name: centralized-log-kb
   namespace: centralized-log
 spec:
   version: 8.9.1

@@ -9,4 +9,5 @@ spec:
   - name: default-nodes
     count: 1
     config:
+      node.roles: ["master", "data", "ingest"]
       node.store.allow_mmap: false
