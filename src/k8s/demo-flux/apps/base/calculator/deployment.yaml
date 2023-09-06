@@ -6,7 +6,7 @@ metadata:
   labels:
     app: calculator
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: calculator
@@ -27,4 +27,4 @@ spec:
               name: calculator-configmap
               key: max_number
         - name: REDIS_URL
-          value: 'redis://redis-svc:6379'
+          value: 'redis://redis-service:6379'
