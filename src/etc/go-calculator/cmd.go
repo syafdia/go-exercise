@@ -19,6 +19,7 @@ type Module struct {
 
 func PingHandler(m *Module) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		log.Println("[PingHandler] Start process")
 		_, err := m.redisClient.Ping(c).Result()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -39,6 +40,8 @@ func AddHandler(m *Module) gin.HandlerFunc {
 		urlQuery := c.Request.URL.Query()
 		rawA := urlQuery.Get("a")
 		rawB := urlQuery.Get("b")
+
+		log.Printf("[AddHandler] Start process, a:%v, b:%v\n", rawA, rawB)
 
 		maxNum, _ := strconv.Atoi(envMaxNumber)
 		a, _ := strconv.Atoi(rawA)

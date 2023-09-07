@@ -11,16 +11,12 @@ COPY *.go ./
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go-calculator
 
 # Pack binary.
-FROM gcr.io/distroless/base-debian11 AS build-release-stage
+FROM ubuntu:22.04 AS build-release-stage
 
-WORKDIR /
+WORKDIR /home
 
-COPY --from=builder /go-calculator /go-calculator
-
-EXPOSE 8080
-
-USER nonroot:nonroot
+COPY --from=builder /go-calculator ./go-calculator
 
 EXPOSE 8080
 
-CMD ["/go-calculator"]
+CMD ["./go-calculator"]
