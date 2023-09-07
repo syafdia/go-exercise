@@ -1,10 +1,12 @@
 apiVersion: v1
 kind: Service
-namespace: redis-cache
 metadata:
   name: redis-service
+  namespace: redis-cache
 spec:
-  ports:
-  - port: 6379
+  type: LoadBalancer
   selector:
     appName: redis-cache
+  ports:
+  - port: 6379
+    targetPort: 6379

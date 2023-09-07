@@ -19,3 +19,5 @@ spec:
       containers:
         - name: redis-cache
           image: redis:7.0
+          ports:
+          - containerPort: 6379

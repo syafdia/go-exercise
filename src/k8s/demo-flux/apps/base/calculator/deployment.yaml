@@ -9,11 +9,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: calculator
+      appName: calculator
   template:
     metadata:
       labels:
-        app: calculator
+        appName: calculator
     spec:
       containers:
       - name: go-calculator
@@ -27,4 +27,4 @@ spec:
               name: calculator-configmap
               key: max_number
         - name: REDIS_URL
-          value: 'redis://redis-service:6379'
+          value: 'redis://redis-service.redis-cache.svc.cluster.local:6379'

@@ -4,9 +4,9 @@ metadata:
   name: calculator-service
   namespace: calculator
 spec:
-  selector:
-    app: calculator
   type: LoadBalancer
+  selector:
+    appName: calculator
   ports:
   - protocol: TCP
     port: 8080
