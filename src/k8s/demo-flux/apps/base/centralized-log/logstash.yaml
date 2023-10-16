@@ -1,0 +1,44 @@
+apiVersion: logstash.k8s.elastic.co/v1alpha1
+kind: Logstash
+metadata:
+  name: centralized-log-ls
+  namespace: centralized-log
+spec:
+  count: 1
+  version: 8.9.0
+  elasticsearchRefs:
+    - clusterName: centralized-log-es
+      name: default-nodes
+  pipelines:
+    - pipeline.id: main
+      config.string: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
+        filter {
+          grok {
+            match => { "message" => "%{HTTPD_COMMONLOG}"}
+          }
+          geoip {
+            source => "[source][address]"
+            target => "[source]"
+          }
+        }
+        output {
+          elasticsearch {
+            hosts => [ "${ECK_ES_HOSTS}" ]
+            user => "${ECK_ES_USER}"
+            password => "${ECK_ES_PASSWORD}"
+            ssl_certificate_authorities => "${ECK_ES_SSL_CERTIFICATE_AUTHORITY}"
+          }
+        }
+  services:
+    - name: beats
+      service:
+        spec:
+          type: ClusterIP
+          ports:
+            - port: 5044
+              targetPort: 5044
