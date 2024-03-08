@@ -10,3 +10,18 @@ spec:
     name: flux-system
   path: ./src/k8s/demo-flux/infrastructure/base/elastic-system
   prune: true
+---
+# Temporarily disable this apps since thhis apps consume large amount of memory.
+# 
+# apiVersion: kustomize.toolkit.fluxcd.io/v1
+# kind: Kustomization
+# metadata:
+#   name: centralized-log
+#   namespace: flux-system
+# spec:
+#   interval: 1m0s
+#   sourceRef:
+#     kind: GitRepository
+#     name: flux-system
+#   path: ./src/k8s/demo-flux/infrastructure/base/centralized-log
+#   prune: true
