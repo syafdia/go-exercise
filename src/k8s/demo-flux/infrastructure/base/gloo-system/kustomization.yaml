@@ -7,3 +7,5 @@ commonLabels:
   app: gloo-system
 resources:
 - namespace.yaml
+- helmRepository.yaml
+- helmRelease.yaml
