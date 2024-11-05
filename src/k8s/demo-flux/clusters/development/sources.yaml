@@ -10,7 +10,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: gloo-helm-repository
+  name: solo-helm-repository
   namespace: flux-system
 spec:
   interval: 5m
