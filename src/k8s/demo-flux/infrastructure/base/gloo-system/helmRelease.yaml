@@ -15,7 +15,5 @@ spec:
         namespace: gloo-system
   values:
     discovery:
-      enabled: true
-    enabled:
-      enabled: true
+      enabled: false
 
