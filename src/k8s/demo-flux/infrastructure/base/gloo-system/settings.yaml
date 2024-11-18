@@ -1,0 +1,31 @@
+apiVersion: gloo.solo.io/v1
+kind: Settings
+metadata:
+  name: default
+  namespace: gloo-system
+spec:
+  discoveryNamespace: gloo-system
+  gateway:
+    validation:
+      alwaysAccept: true
+      proxyValidationServerAddr: gloo:9988
+  gloo:
+    xdsBindAddr: 0.0.0.0:9977
+  kubernetesArtifactSource: {}
+  kubernetesConfigSource: {}
+  kubernetesSecretSource: {}
+  refreshRate: 60s
+  extauth:
+    extauthzServerRef:
+      name: auth-server-upstream
+      namespace: gloo-system
+    httpService:
+      request:
+        allowedHeadersRegex: ['.*']
+      response:
+        allowedUpstreamHeaders:
+        - 'x-user-id'
+        - 'x-user-context'
+    requestBody:
+      maxRequestBytes: 10240
+    requestTimeout: 0.5s

@@ -9,3 +9,7 @@ resources:
 - namespace.yaml
 - helmRepository.yaml
 - helmRelease.yaml
+- gateway.yaml
+- upstreams.yaml
+- virtualServices.yaml
+- settings.yaml

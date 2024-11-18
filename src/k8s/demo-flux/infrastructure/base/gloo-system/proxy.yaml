@@ -1,0 +1,10 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: example-upstream
+  namespace: gloo-system
+spec:
+  static:
+    hosts:
+      - addr: example-service.gloo-system.svc.cluster.local
+        port: 80

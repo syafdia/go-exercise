@@ -1,0 +1,21 @@
+apiVersion: gateway.solo.io/v1
+kind: Gateway
+metadata:
+  name: gateway-proxy
+  namespace: gloo-system
+
+spec:
+  bindAddress: '::'
+  bindPort: 8080
+  httpGateway:
+    options: 
+      httpLocalRatelimit: 
+        defaultLimit:
+          maxTokens: 2
+          tokensPerFill: 2
+          fillInterval: 15s
+        enableXRatelimitHeaders: true
+  proxyNames:
+  - gateway-proxy
+  ssl: false
+  useProxyProto: false
