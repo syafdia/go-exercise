@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: flagger-helm-release
+  namespace: flagger
+spec:
+  install:
+    remediation:
+      retries: 5
+      remediateLastFailure: True
+  upgrade:
+    remediation:
+      retries: 5
+      remediateLastFailure: True
+  timeout: 15m
+  targetNamespace: flagger
+  interval: 5m
+  chart:
+    spec:
+      chart: flagger
+      version: 1.34.0
+      sourceRef:
+        kind: HelmRepository
+        name: flagger-helm-repository
+        namespace: flagger
+  values:
+    crds:
+      create: true
+    fullnameOverride: flagger
+    meshProvider: gloo
+    includeLabelPrefix: '*'
