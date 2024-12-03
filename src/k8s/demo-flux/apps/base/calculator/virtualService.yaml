@@ -1,0 +1,19 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: calculator-vs
+  namespace: calculator
+spec:
+  virtualHost:
+    domains:
+    - calculator.service.local
+    options:
+      extauth:
+        customAuth: {}
+    routes:
+    - matchers:
+      - prefix: /
+      delegateAction:
+        ref:
+          name: calculator-deployment
+          namespace: calculator

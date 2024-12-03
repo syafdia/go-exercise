@@ -7,14 +7,7 @@ metadata:
 spec:
   bindAddress: '::'
   bindPort: 8080
-  httpGateway:
-    options: 
-      httpLocalRatelimit: 
-        defaultLimit:
-          maxTokens: 2
-          tokensPerFill: 2
-          fillInterval: 15s
-        enableXRatelimitHeaders: true
+  httpGateway: {}
   proxyNames:
   - gateway-proxy
   ssl: false

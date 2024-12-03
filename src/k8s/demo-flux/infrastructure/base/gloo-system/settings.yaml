@@ -24,7 +24,6 @@ spec:
         allowedHeadersRegex: ['.*']
       response:
         allowedUpstreamHeaders:
-        - 'x-user-id'
         - 'x-user-context'
     requestBody:
       maxRequestBytes: 10240

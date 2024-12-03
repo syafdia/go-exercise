@@ -1,24 +1,3 @@
-# apiVersion: gateway.solo.io/v1
-# kind: VirtualService
-# metadata:
-#   name: default
-#   namespace: gloo-system
-# spec:
-#   virtualHost:
-#     domains:
-#     - '*'
-#     options:
-#       extauth:
-#         customAuth: {}
-#     routes:
-#     - matchers:
-#       - prefix: /
-#       routeAction:
-#         single:
-#           upstream:
-#             name: calculator-upstream
-#             namespace: gloo-system
-# ---
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
@@ -31,33 +10,7 @@ spec:
     routes:
     - matchers:
       - prefix: /
-      routeAction:
-        multi:
-          destinations:
-          - weight: 50
-            destination:
-              upstream:
-                name: calculator-a-upstream
-                namespace: gloo-system
-            options:
-              extauth:
-                customAuth: {}
-              headerManipulation:
-                requestHeadersToAdd:
-                - header:
-                    key: x-upstream-name
-                    value: calculator-a
-          - weight: 50
-            destination:
-              upstream:
-                name: calculator-b-upstream
-                namespace: gloo-system
-            options:
-              headerManipulation:
-                requestHeadersToAdd:
-                - header:
-                    key: x-upstream-name
-                    value: calculator-b
-                requestHeadersToRemove:
-                - x-user-id
+      directResponseAction:
+        status: 404
+        body: 'whoops, service is not found'
 ---

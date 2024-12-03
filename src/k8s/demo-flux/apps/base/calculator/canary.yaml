@@ -1,0 +1,25 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: calculator-canary
+  namespace: calculator
+spec:
+  provider: gloo
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: calculator-deployment
+  service:
+    port: 8080
+    targetPort: 8080
+  analysis:
+    # schedule interval (default 60s)
+    interval: 10s
+    # max number of failed metric checks before rollback
+    threshold: 5
+    # max traffic percentage routed to canary
+    # percentage (0-100)
+    maxWeight: 50
+    # canary increment step
+    # percentage (0-100)
+    stepWeight: 10
