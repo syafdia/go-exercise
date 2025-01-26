@@ -11,3 +11,7 @@ type ValidationError struct {
 func NewValidationError(code ErrorCode, message string) *ValidationError {
 	return &ValidationError{*errr.NewErr(string(code), message)}
 }
+
+var (
+	ErrNotImplemented = errr.NewErr("CORE-FEATURE_NOT_IMPLEMENTED", "feature is not implemented yet")
+)

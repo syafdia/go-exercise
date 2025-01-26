@@ -1,6 +1,7 @@
 package task
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/syafdia/clean-arch-ddd-cqrs-es/internal/domain"
@@ -25,6 +26,7 @@ type Task struct {
 	Title       Title
 	Description Description
 	Status      TaskStatus
+	Tags        []Tag
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
@@ -53,6 +55,31 @@ func NewTask(
 
 }
 
+func (t *Task) ChangeStatus(newStatus TaskStatus) error {
+	// TODO
+	return nil
+}
+
+func (t *Task) AddTag(newTag Tag, updatedAt time.Time) error {
+	for _, tag := range t.Tags {
+		if tag.ID == newTag.ID {
+			return domain.NewValidationError(
+				ErrCodeTagAlreadyExists,
+				fmt.Sprintf("tag %s already exists on this task", newTag.Name))
+		}
+	}
+
+	t.Tags = append(t.Tags, newTag)
+	t.UpdatedAt = updatedAt
+
+	return nil
+}
+
+func (t *Task) RemoveTag(newTag Tag) error {
+	// TODO
+	return domain.ErrNotImplemented
+}
+
 type Title string
 
 func (t Title) Validate() error {
@@ -72,6 +99,40 @@ type Description string
 func (d Description) Validate() error {
 	if len(d) > 256 {
 		return domain.NewValidationError(ErrCodeInvalidDescriptionLength, "the maximum value is 256 characters")
+	}
+
+	return nil
+}
+
+type TagID int64
+
+type Tag struct {
+	ID        TagID
+	Name      TagName
+	CreatedAt time.Time
+}
+
+func NewTag(name TagName, createdAt time.Time) (*Tag, error) {
+	err := name.Validate()
+	if err != nil {
+		return nil, err
+	}
+
+	return &Tag{
+		Name:      name,
+		CreatedAt: createdAt,
+	}, nil
+}
+
+type TagName string
+
+func (tn TagName) Validate() error {
+	if len(tn) < 2 {
+		return domain.NewValidationError(ErrCodeInvalidTagNameLength, "must be at least 2 characters")
+	}
+
+	if len(tn) > 8 {
+		return domain.NewValidationError(ErrCodeInvalidTagNameLength, "the maximum value is 8 characters")
 	}
 
 	return nil
