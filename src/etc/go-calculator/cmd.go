@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -19,7 +20,7 @@ type Module struct {
 
 func PingHandler(m *Module) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		log.Println("[PingHandler] Start process")
+		log.Printf("[PingHandler] Start process, headers: %+v\n", c.Request.Header)
 		_, err := m.redisClient.Ping(c).Result()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -86,6 +87,30 @@ func AddHandler(m *Module) gin.HandlerFunc {
 	}
 }
 
+func WebSocketHandler(m *Module) gin.HandlerFunc {
+
+	wsUpgrader := websocket.Upgrader{
+		ReadBufferSize:  1024,
+		WriteBufferSize: 1024,
+	}
+	return func(c *gin.Context) {
+		log.Printf("[WebSocketHandler] Start process")
+
+		conn, err := wsUpgrader.Upgrade(c.Writer, c.Request, nil)
+		if err != nil {
+			return
+		}
+		defer conn.Close()
+
+		i := 0
+		for {
+			i++
+			conn.WriteMessage(websocket.TextMessage, []byte("New message (#"+strconv.Itoa(i)+")"))
+			time.Sleep(3 * time.Second)
+		}
+	}
+}
+
 func doHeavyCalculation(a int, b int) int {
 	time.Sleep(3 * time.Second)
 	return a + b
@@ -119,6 +144,7 @@ func main() {
 
 	r.GET("/ping", PingHandler(module))
 	r.GET("/add", AddHandler(module))
+	r.GET("/ws", WebSocketHandler(module))
 
 	r.Run(fmt.Sprintf(":%s", httpServerPort))
 }
