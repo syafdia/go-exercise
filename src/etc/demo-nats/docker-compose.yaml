@@ -1,0 +1,40 @@
+version: '3.5'
+services:
+  nats-1:
+    container_name: nats-1
+    image: nats
+    entrypoint: /nats-server
+    command: --server_name N1 --cluster_name JSC --js --sd /data --cluster nats://0.0.0.0:4245 --routes nats://nats-2:4245,nats://nats-3:4245 -p 4222
+    networks:
+      - demo-nats-network
+    ports:
+      - 4222:4222
+
+  nats-2:
+    container_name: nats-2
+    image: nats
+    entrypoint: /nats-server
+    command: --server_name N2 --cluster_name JSC --js --sd /data --cluster nats://0.0.0.0:4245 --routes nats://nats-1:4245,nats://nats-3:4245 -p 4222
+    networks:
+      - demo-nats-network
+    ports:
+      - 4223:4222
+
+  nats-3:
+    container_name: nats-3
+    image: nats
+    entrypoint: /nats-server
+    command: --server_name N3 --cluster_name JSC --js --sd /data --cluster nats://0.0.0.0:4245 --routes nats://nats-1:4245,nats://nats-2:4245 -p 4222
+    networks:
+      - demo-nats-network
+    ports:
+      - 4224:4222
+
+networks:
+  demo-nats-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+volumes:
+  hydra-sqlite:
