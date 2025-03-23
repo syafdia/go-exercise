@@ -1,0 +1,41 @@
+version: '3.5'
+services:
+
+  hydra-postgres:
+    image: 'postgres:15'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '5432:5432'
+    tty: true
+    volumes:
+      - ./volumes/postgresql/var/lib/postgresql/data:/var/lib/postgresql/data
+
+  hydra-migrate:
+    image: 'oryd/hydra:v2.3.0'
+    restart: on-failure
+    command:
+      migrate sql -e --yes
+    environment:
+      - DSN=postgres://postgres:postgres@hydra-postgres:5432/postgres?sslmode=disable&max_conns=20&max_idle_conns=4
+    depends_on:
+      - hydra-postgres
+
+  hydra-core:
+    image: 'oryd/hydra:v2.3.0'
+    environment:
+      - DSN=postgres://postgres:postgres@hydra-postgres:5432/postgres?sslmode=disable&max_conns=20&max_idle_conns=4
+      - SECRETS_SYSTEM=my-secret-my-secret-my-secret
+      - URLS_LOGIN=http://localhost:9001/auth/session/new # Sets the login endpoint of the User Login & Consent flow.
+      - URLS_CONSENT=http://localhost:9001/auth/consent/new # Sets the consent endpoint of the User Login & Consent flow.
+      - SERVE_PUBLIC_PORT=4444
+      - SERVE_PUBLIC_HOST=0.0.0.0
+      - SERVE_PUBLIC_CORS_ENABLED=true
+      - SERVE_ADMIN_PORT=4445
+      - LOG_LEVEL=debug
+    ports:
+      - '4444:4444' # Public port
+      - '4445:4445' # Admin port
+      - '5555:5555' # Port for debug app
+    tty: true
